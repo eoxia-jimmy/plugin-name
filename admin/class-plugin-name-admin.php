@@ -73,6 +73,7 @@ class Plugin_Name_Admin {
 		 * class.
 		 */
 
+		wp_enqueue_style( $this->plugin_name . '-eoframework', plugin_dir_url( __FILE__ ) . 'css/plugin-name-eoframework.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -100,19 +101,47 @@ class Plugin_Name_Admin {
 
 		wp_localize_script( $this->plugin_name, 'wpr_object', array(
 			'api_nonce'   => wp_create_nonce( 'wp_rest' ),
-			'api_url'	  => rest_url( $this->plugin_name . '/v1/' ),
+			'api_url'	  => rest_url(),
 			)
 		);
 
 	}
 
+	public function init() {
+		$args = array(
+      'public'       => true,
+      'show_in_rest' => true,
+      'label'        => 'Projects'
+    );
+    register_post_type( 'wpeo-task', $args );
+	}
+
 	public function admin_menu() {
 		add_menu_page(
-        __( 'Custom Menu Title', 'textdomain' ),
-        'custom menu',
+        __( 'Task Manager', 'textdomain' ),
+        'Task Manager',
         'manage_options',
         'plugin-name/admin/partials/plugin-name-admin-display.php'
     );
+	}
+
+	public function create_api_posts_meta_field() {
+		register_rest_field( 'wpeo-task', 'post-meta-fields', array(
+				'get_callback' => array( $this, 'get_post_meta_for_api' ),
+				'schema' => null,
+			)
+		);
+	}
+
+	public function get_post_meta_for_api( $object ) {
+	 //get the id of the post object array
+	 $post_id = $object['id'];
+
+	 $meta = get_post_meta( $post_id );
+ 	 $meta['wpeo_task'] = json_decode( $meta['wpeo_task'][0] );
+
+	 //return the post meta
+	 return $meta;
 	}
 
 }

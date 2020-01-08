@@ -111,57 +111,13 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     super(props);
 
     _defineProperty(this, "getSetting", () => {
-      this.fetchWP.get('example').then(json => this.setState({
-        exampleSetting: json.value,
-        savedExampleSetting: json.value
+      this.fetchWP.get('wp/v2/wpeo-task').then(json => this.setState({
+        items: json
       }), err => console.log('error', err));
     });
 
-    _defineProperty(this, "updateSetting", () => {
-      this.fetchWP.post('example', {
-        exampleSetting: this.state.exampleSetting
-      }).then(json => this.processOkResponse(json, 'saved'), err => console.log('error', err));
-    });
-
-    _defineProperty(this, "deleteSetting", () => {
-      this.fetchWP.delete('example').then(json => this.processOkResponse(json, 'deleted'), err => console.log('error', err));
-    });
-
-    _defineProperty(this, "processOkResponse", (json, action) => {
-      if (json.success) {
-        this.setState({
-          exampleSetting: json.value,
-          savedExampleSetting: json.value
-        });
-      } else {
-        console.log("Setting was not ".concat(action, "."), json);
-      }
-    });
-
-    _defineProperty(this, "updateInput", event => {
-      this.setState({
-        exampleSetting: event.target.value
-      });
-    });
-
-    _defineProperty(this, "handleSave", event => {
-      event.preventDefault();
-
-      if (this.state.exampleSetting === this.state.savedExampleSetting) {
-        console.log('Setting unchanged');
-      } else {
-        this.updateSetting();
-      }
-    });
-
-    _defineProperty(this, "handleDelete", event => {
-      event.preventDefault();
-      this.deleteSetting();
-    });
-
     this.state = {
-      exampleSetting: '',
-      savedExampleSetting: ''
+      items: []
     };
     this.fetchWP = new _utils_fetchWP__WEBPACK_IMPORTED_MODULE_2__["default"]({
       restURL: this.props.wpObject.api_url,
@@ -171,21 +127,28 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   render() {
+    const {
+      items
+    } = this.state;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "wrap"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "WP Reactivate Settings"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Example Setting:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      type: "text",
-      value: this.state.exampleSetting,
-      onChange: this.updateInput
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      id: "save",
-      className: "button button-primary",
-      onClick: this.handleSave
-    }, "Save"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      id: "delete",
-      className: "button button-primary",
-      onClick: this.handleDelete
-    }, "Delete")));
+      className: "wrap tm-wrap"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "wpeo-table table-flex table-projects"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-row table-header"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-cell"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-thumbtack"
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-cell"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Project Name"))), items.map((item, key) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-row"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-cell"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      class: "table-cell-container project-title"
+    }, item.title.rendered))))));
   }
 
 }

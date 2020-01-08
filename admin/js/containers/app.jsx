@@ -8,8 +8,7 @@ export default class Admin extends Component {
     super(props);
 
     this.state = {
-      exampleSetting: '',
-      savedExampleSetting: ''
+      items: [],
     };
 
     this.fetchWP = new fetchWP({
@@ -21,91 +20,45 @@ export default class Admin extends Component {
   }
 
   getSetting = () => {
-    this.fetchWP.get( 'example' )
+    this.fetchWP.get( 'wp/v2/wpeo-task' )
     .then(
       (json) => this.setState({
-        exampleSetting: json.value,
-        savedExampleSetting: json.value
+        items: json
       }),
       (err) => console.log( 'error', err )
     );
   };
 
-  updateSetting = () => {
-    this.fetchWP.post( 'example', { exampleSetting: this.state.exampleSetting } )
-    .then(
-      (json) => this.processOkResponse(json, 'saved'),
-      (err) => console.log('error', err)
-    );
-  }
-
-  deleteSetting = () => {
-    this.fetchWP.delete( 'example' )
-    .then(
-      (json) => this.processOkResponse(json, 'deleted'),
-      (err) => console.log('error', err)
-    );
-  }
-
-  processOkResponse = (json, action) => {
-    if (json.success) {
-      this.setState({
-        exampleSetting: json.value,
-        savedExampleSetting: json.value,
-      });
-    } else {
-      console.log(`Setting was not ${action}.`, json);
-    }
-  }
-
-  updateInput = (event) => {
-    this.setState({
-      exampleSetting: event.target.value,
-    });
-  }
-
-  handleSave = (event) => {
-    event.preventDefault();
-    if ( this.state.exampleSetting === this.state.savedExampleSetting ) {
-      console.log('Setting unchanged');
-    } else {
-      this.updateSetting();
-    }
-  }
-
-  handleDelete = (event) => {
-    event.preventDefault();
-    this.deleteSetting();
-  }
-
   render() {
+    const { items } = this.state;
     return (
-      <div className="wrap">
-        <form>
-          <h1>WP Reactivate Settings</h1>
+      <div className="wrap tm-wrap">
+        <div className="wpeo-table table-flex table-projects">
+        	<div className="table-row table-header">
+    				<div className="table-cell">
+    					<span>
+    						<i className="fas fa-thumbtack"></i>
+    					</span>
+    				</div>
+    				<div className="table-cell">
+    					<span>
+    						Project Name
+    					</span>
+    				</div>
+        	</div>
 
-          <label>
-          Example Setting:
-            <input
-              type="text"
-              value={this.state.exampleSetting}
-              onChange={this.updateInput}
-            />
-          </label>
-
-          <button
-            id="save"
-            className="button button-primary"
-            onClick={this.handleSave}
-          >Save</button>
-
-          <button
-            id="delete"
-            className="button button-primary"
-            onClick={this.handleDelete}
-          >Delete</button>
-        </form>
+          {items.map((item, key) => (
+            <div className="table-row">
+              <div className="table-cell">
+                <div class="table-cell-container project-title">
+                  {item.title.rendered}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
     );
   }
 }
