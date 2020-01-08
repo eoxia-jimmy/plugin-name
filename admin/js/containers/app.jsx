@@ -7,7 +7,7 @@ export default class Admin extends Component {
   constructor(props) {
     super(props);
 
-    console.log(window.columns);
+    console.log(this.props.wpObject.columns);
 
     this.state = {
       items: [],
@@ -52,7 +52,7 @@ export default class Admin extends Component {
           {items.map((item, key) => (
             <div className="table-row">
               <div className="table-cell">
-                <div class="table-cell-container project-title">
+                <div className="table-cell-container project-title">
                   {item.title.rendered}
                 </div>
               </div>

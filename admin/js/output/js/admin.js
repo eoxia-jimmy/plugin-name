@@ -116,7 +116,7 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       }), err => console.log('error', err));
     });
 
-    console.log(window.columns);
+    console.log(this.props.wpObject.columns);
     this.state = {
       items: []
     };
@@ -148,7 +148,7 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "table-cell"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      class: "table-cell-container project-title"
+      className: "table-cell-container project-title"
     }, item.title.rendered))))));
   }
 
