@@ -40,6 +40,8 @@ class Plugin_Name_Admin {
 	 */
 	private $version;
 
+	private $columns;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -52,6 +54,93 @@ class Plugin_Name_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		$this->columns = array(
+			'empty' => array(
+				'icon'    => null,
+				'title'   => null,
+				'classes' => 'table-25',
+			),
+			'state' => array(
+				'icon'    => null,
+				'title'   => __( 'State', 'task-manager' ),
+				'classes' => 'table-50',
+			),
+			'name' => array(
+				'icon'    => null,
+				'title'   => __( 'Name', 'task-manager' ),
+				'classes' => 'table-300',
+			),
+			'id' => array(
+				'icon'    => null,
+				'title'   => __( 'ID', 'task-manager' ),
+				'classes' => 'table-50',
+			),
+			'last_update' => array(
+				'icon'    => null,
+				'title'   => __( 'Last Update', 'task-manager' ),
+				'classes' => 'table-100',
+			),
+			'time' => array(
+				'icon'    => null,
+				'title'   => __( 'Time', 'task-manager' ),
+				'classes' => 'table-100',
+			),
+			'created_date' => array(
+				'icon'    => null,
+				'title'   => __( 'Created Date', 'task-manager' ),
+				'classes' => 'table-150',
+			),
+			'ended_date' => array(
+				'icon'    => null,
+				'title'   => __( 'Ended Date', 'task-manager' ),
+				'classes' => 'table-150',
+			),
+			'indicators'  => array(
+				'icon'    => null,
+				'title'   => __( 'Indicators', 'task-manager' ),
+				'classes' => 'table-100',
+			),
+			'affiliated_with' => array(
+				'icon'    => null,
+				'title'   => __( 'Affiliated With', 'task-manager' ),
+				'classes' => 'table-100',
+			),
+			'categories' => array(
+				'icon'    => null,
+				'title'   => __( 'Categories', 'task-manager' ),
+				'classes' => 'table-150',
+			),
+			'attachments' => array(
+				'icon'    => null,
+				'title'   => __( 'Attachments', 'task-manager' ),
+				'classes' => 'table-75',
+			),
+			'number_comments' => array(
+				'icon'  => null,
+				'title' => __( 'Number Comments', 'task-manager' ),
+				'classes' => 'table-50',
+			),
+			'author' => array(
+				'icon'    => null,
+				'title'   => __( 'Author', 'task-manager' ),
+				'classes' => 'table-100',
+			),
+			'associated_users' => array(
+				'icon'    => null,
+				'title'   => __( 'Associated Users', 'task-manager' ),
+				'classes' => 'table-200',
+			),
+			'participants' => array(
+				'icon'    => null,
+				'title'   => __( 'Participants', 'task-manager' ),
+				'classes' => 'table-200',
+			),
+			'waiting_for' => array(
+				'icon'    => null,
+				'title'   => __( 'Waiting For', 'task-manager' ),
+				'classes' => 'table-200',
+			)
+		);
 	}
 
 	/**
@@ -100,8 +189,9 @@ class Plugin_Name_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '/js/output/js/admin.js', array(), rand(), false );
 
 		wp_localize_script( $this->plugin_name, 'wpr_object', array(
-			'api_nonce'   => wp_create_nonce( 'wp_rest' ),
-			'api_url'	  => rest_url(),
+				'api_nonce' => wp_create_nonce( 'wp_rest' ),
+				'api_url'	  => rest_url(),
+				'columns'   => $this->columns,
 			)
 		);
 

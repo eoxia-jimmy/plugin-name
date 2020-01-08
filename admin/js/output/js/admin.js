@@ -116,6 +116,7 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       }), err => console.log('error', err));
     });
 
+    console.log(window.columns);
     this.state = {
       items: []
     };
