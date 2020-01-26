@@ -111,45 +111,45 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     super(props);
 
     _defineProperty(this, "getSetting", () => {
-      this.fetchWP.get('wp/v2/wpeo-task').then(json => this.setState({
+      this.fetchWP.get('products').then(json => this.setState({
         items: json
-      }), err => console.log('error', err));
+      }), err => this.setState({
+        err: err
+      }));
     });
 
-    console.log(this.props.wpObject.columns);
     this.state = {
-      items: []
+      items: [],
+      err: undefined
     };
     this.fetchWP = new _utils_fetchWP__WEBPACK_IMPORTED_MODULE_2__["default"]({
       restURL: this.props.wpObject.api_url,
-      restNonce: this.props.wpObject.api_nonce
+      dolApiKey: '1r6CmRpGb0t7rm8NG0qG9tmSX5vH5EN2'
     });
     this.getSetting();
   }
 
   render() {
     const {
-      items
+      items,
+      err
     } = this.state;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "wrap tm-wrap"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "wpeo-table table-flex table-projects"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-row table-header"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-cell"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fas fa-thumbtack"
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-cell"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Project Name"))), items.map((item, key) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-row"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-cell"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-cell-container project-title"
-    }, item.title.rendered))))));
+
+    if (err) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, err.error.message);
+    } else if (items.length == 0) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No product found");
+    } else {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "wrap tm-wrap"
+      }, items.map((item, key) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "table-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "table-cell"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "table-cell-container project-title"
+      }, item.title.rendered)))));
+    }
   }
 
 }
@@ -184,7 +184,7 @@ if (!window._babelPolyfill) {
 document.addEventListener('DOMContentLoaded', function () {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_app_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
     wpObject: window.wpr_object
-  }), document.getElementById('tm-wrap'));
+  }), document.getElementById('react-wrap'));
 });
 
 /***/ }),
@@ -207,7 +207,7 @@ class fetchWP {
   constructor(options = {}) {
     this.options = options;
     if (!options.restURL) throw new Error('restURL option is required');
-    if (!options.restNonce) throw new Error('restNonce option is required');
+    if (!options.dolApiKey) throw new Error('restNonce option is required');
     methods.forEach(method => {
       this[method] = this._setup(method);
     });
@@ -221,7 +221,7 @@ class fetchWP {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'X-WP-Nonce': this.options.restNonce
+          'HTTP_DOLAPIKEY': this.options.dolApiKey
         }
       };
 

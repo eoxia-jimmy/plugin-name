@@ -8,5 +8,5 @@ import ReactDOM from 'react-dom';
 import Admin from './containers/app.jsx';
 
 document.addEventListener('DOMContentLoaded', function() {
-  ReactDOM.render(<Admin wpObject={window.wpr_object} />, document.getElementById('tm-wrap'));
+  ReactDOM.render(<Admin wpObject={window.wpr_object} />, document.getElementById('react-wrap'));
 });

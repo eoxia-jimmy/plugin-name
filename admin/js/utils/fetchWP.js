@@ -14,7 +14,7 @@ export default class fetchWP {
     if ( !options.restURL )
     throw new Error('restURL option is required');
 
-    if ( !options.restNonce )
+    if ( !options.dolApiKey )
     throw new Error('restNonce option is required');
 
     methods.forEach(method => {
@@ -30,7 +30,7 @@ export default class fetchWP {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'X-WP-Nonce': this.options.restNonce,
+          'HTTP_DOLAPIKEY': this.options.dolApiKey
         }
       };
 

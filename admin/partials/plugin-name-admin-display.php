@@ -14,4 +14,8 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<div id="tm-wrap"></div>
+<div id="wrap">
+  <h1 class="wp-heading-inline"><?php esc_html_e( 'Products', 'doli-front' ); ?></h1>
+
+  <div id="react-wrap"></div>
+</div>
