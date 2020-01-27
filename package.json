@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --progress --colors --watch --mode=development",
-    "prod": "webpack --progress --colors -p --config webpack.config.js --mode=production"
+    "prod": "webpack --progress --colors -p --config webpack.config.js --mode=production",
+    "wpstart": "wp-scripts start",
+    "wpbuild": "wp-scripts build",
+    "wpbuild:custom": "wp-scripts build admin/js/block.js --output-path=build",
+    "wplint-js": "wp-scripts lint-js",
+    "wpstart:custom": "wp-scripts start admin/js/block.js --output-path=admin/build"
   },
   "repository": {
     "type": "git",
@@ -32,6 +37,7 @@
     "react-dom": "^16.5.2"
   },
   "devDependencies": {
+    "@wordpress/scripts": "^6.1.1",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",

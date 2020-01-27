@@ -137,8 +137,6 @@ class Admin extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
     if (err) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, err.error.message);
-    } else if (items.length == 0) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No product found");
     } else {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "wrap tm-wrap"
@@ -182,9 +180,11 @@ if (!window._babelPolyfill) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_app_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    wpObject: window.wpr_object
-  }), document.getElementById('react-wrap'));
+  if (document.getElementById('react-wrap') != null) {
+    react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_app_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      wpObject: window.wpr_object
+    }), document.getElementById('react-wrap'));
+  }
 });
 
 /***/ }),
@@ -221,7 +221,7 @@ class fetchWP {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'HTTP_DOLAPIKEY': this.options.dolApiKey
+          'DOLAPIKEY': this.options.dolApiKey
         }
       };
 

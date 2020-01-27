@@ -159,7 +159,6 @@ class Plugin_Name {
 
 		$this->loader->add_action( 'init', $plugin_admin, 'init' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu' );
-		$this->loader->add_action( 'rest_api_init', $plugin_admin, 'create_api_posts_meta_field' );
 
 	}
 

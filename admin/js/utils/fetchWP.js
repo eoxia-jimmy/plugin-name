@@ -30,7 +30,7 @@ export default class fetchWP {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'HTTP_DOLAPIKEY': this.options.dolApiKey
+          'DOLAPIKEY': this.options.dolApiKey
         }
       };
 

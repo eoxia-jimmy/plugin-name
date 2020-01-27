@@ -39,10 +39,6 @@ export default class Admin extends Component {
         return (
           <p>{err.error.message}</p>
         );
-    } else if (items.length == 0) {
-      return (
-        <p>No product found</p>
-      );
     } else {
       return (
         <div className="wrap tm-wrap">

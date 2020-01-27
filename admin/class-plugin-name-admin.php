@@ -95,22 +95,28 @@ class Plugin_Name_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '/js/output/js/admin.js', array(), rand(), false );
-
-		wp_localize_script( $this->plugin_name, 'wpr_object', array(
-				'api_nonce' => wp_create_nonce( 'wp_rest' ),
-				'api_url'	  => 'http://127.0.0.1/dolibarr/htdocs/api/index.php/',
-			)
-		);
-
 	}
 
 	public function init() {
-		$args = array(
-      'public'       => true,
-      'show_in_rest' => true,
-      'label'        => 'Projects'
-    );
-    register_post_type( 'wpeo-task', $args );
+		$asset_file = include( plugin_dir_path( __FILE__ ) . 'build/index.asset.php');
+
+		// automatically load dependencies and version
+	 wp_register_script(
+			 'dolibarr-products',
+			 plugin_dir_url( __FILE__ ) . '/build/block.js',
+			 $asset_file['dependencies'],
+			 $asset_file['version']
+	 );
+
+	 wp_localize_script( 'dolibarr-products', 'wpObject', array(
+			 'api_nonce' => wp_create_nonce( 'wp_rest' ),
+			 'api_url'	  => 'http://127.0.0.1/dolibarr/htdocs/api/index.php/',
+		 )
+	 );
+
+	 register_block_type( 'dolibarr/ex-products', array(
+			 'editor_script' => 'dolibarr-products',
+	 ) );
 	}
 
 	public function admin_menu() {
@@ -121,24 +127,4 @@ class Plugin_Name_Admin {
         'plugin-name/admin/partials/plugin-name-admin-display.php'
     );
 	}
-
-	public function create_api_posts_meta_field() {
-		register_rest_field( 'wpeo-task', 'post-meta-fields', array(
-				'get_callback' => array( $this, 'get_post_meta_for_api' ),
-				'schema' => null,
-			)
-		);
-	}
-
-	public function get_post_meta_for_api( $object ) {
-	 //get the id of the post object array
-	 $post_id = $object['id'];
-
-	 $meta = get_post_meta( $post_id );
- 	 $meta['wpeo_task'] = json_decode( $meta['wpeo_task'][0] );
-
-	 //return the post meta
-	 return $meta;
-	}
-
 }
